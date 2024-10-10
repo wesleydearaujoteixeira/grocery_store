@@ -77,7 +77,6 @@ function Header() {
 
   const getCategoryList = () => { 
     getCategory().then((response) => { 
-      console.log(process.env.NEXT_PUBLIC_BACKEND_BASE_URL);
       setCategoryList(response.data.data);
     })
     .catch((error) => {

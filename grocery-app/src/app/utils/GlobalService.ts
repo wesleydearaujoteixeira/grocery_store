@@ -7,5 +7,5 @@ export const globalApi = axios.create({
 
 export const getCategory = () => globalApi.get('/categories?populate=*');
 
-
+export const getSlider = () => globalApi.get('/sliders?populate=*');
 

@@ -1,12 +1,19 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import Header from "./_components/Header";
+import Sliders from "./_components/Sliders";
 
 
 export default function Home() {
+
+
+ 
+
+
   return (
     <div>
       <Header/>
-       home 
+      <Sliders/>
     </div>
   );
 }
