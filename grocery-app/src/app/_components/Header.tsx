@@ -98,7 +98,7 @@ function Header() {
       <Image
         src="/grocery_stor.png"
         alt="Grocery Store Logo"  
-        width={150}
+        width={100}
         height={100}
       />
       <div>
@@ -117,8 +117,8 @@ function Header() {
                       <Image
                          src={"http://localhost:1337"+category.icon[0].url.toString()}
                          alt='url category'
-                         width={30}
-                         height={30}
+                         width={20}
+                         height={20}
                          unoptimized={true}
                       />
                         
