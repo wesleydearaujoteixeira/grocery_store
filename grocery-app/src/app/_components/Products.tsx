@@ -6,6 +6,17 @@ import { Product } from "../utils/types/userTypes";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Ms_Madi } from "next/font/google";
+import Modal from "./Modal";
+
 
 
 
@@ -53,9 +64,38 @@ const Products = () => {
                         )}
                          <h3 className="text-lg text-green-600">{prodt.name}</h3>
                          <p className="text-gray-600 text-xl">R$ {prodt.sellingPrice}</p>
-                         <Button variant="outline"
+                        
+
+              <Dialog>
+                <DialogTrigger asChild>
+
+                <Button variant="outline"
                          className="text-primary hover:text-white hover:bg-primary "
-                         > Add to cart </Button>
+                         > Add to cart 
+                         
+                </Button>
+
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>
+                      
+                        <Modal
+                          images={`http://localhost:1337${prodt.images[0].url}`}
+                          description={prodt.description}
+                          name={prodt.name}
+                          price={prodt.sellingPrice}
+                        />
+
+                        
+                    </DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete your account
+                      and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
                     </div>
                 )
             })}

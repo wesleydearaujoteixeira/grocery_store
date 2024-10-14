@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getCategory } from '../utils/GlobalService';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -84,8 +85,10 @@ const CategoryList = () => {
         <h2 className='text-green-600 text-2xl font-bold'> CategoryList </h2>
         <section className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 mt-5 gap-5'>
             {categoryList.length > 0 && categoryList.map((category, index) => {
+                
                 return (
-                    <div key={index} className='flex flex-col items-center bg-green-50 hover:bg-green-200 gap-2 p-3 rounded-lg group-[]:'>
+        
+                  <Link href={'/products-category/'+ category.name} key={index} className='flex flex-col items-center bg-green-50 hover:bg-green-300 gap-2 p-3 rounded-lg group-[]:'>
                         
                         <Image
 
@@ -100,9 +103,7 @@ const CategoryList = () => {
 
                         <h2 className='font-bold text-xl text-green-800'> {category.name} </h2>
 
-                        
-
-                    </div>
+                    </Link>
                 )
             })}
         </section>
