@@ -48,14 +48,12 @@ const Modal = ({images, name, description, price}: PropsTypes) => {
             <div className="font-bold text-3xl">
                 R$ {price}
             </div>
-            <div>
-                <div className="p-2 border flex gap-10 items-center px-10">
+                <div className="p-2 border flex gap-10 items-center justify-center md:items-center px-10">
                     <button className=" text-black font-bold" onClick={() => decreaseQuantity()}>-</button>
                     <h2> {toggle} </h2>
                     <button className=" text-black font-bold" onClick={() => increaseQuantity()}>+</button>
                 </div>
-            </div>
-            <h2 className="text-2xl font-bold"> {result.toFixed(2)} </h2>
+            <h2 className="text-2xl font-bold"> {result.toFixed(1)} R$ </h2>
             
             <Button className="flex gap-3">
                 <ShoppingBasket/>

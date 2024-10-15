@@ -15,6 +15,8 @@ import {
   } from "@/components/ui/dropdown-menu"
 
 import { getCategory } from '../utils/GlobalService';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
   
 
 function Header() {
@@ -69,10 +71,10 @@ function Header() {
     height: number;
   }
   
-
-
+    const jwt = sessionStorage.getItem('data-jwt');
 
   const [categoryList, setCategoryList] = useState <TypesCategory[]> ([]);
+  const router = useRouter()
 
 
   const getCategoryList = () => { 
@@ -91,16 +93,31 @@ function Header() {
  }, []);
 
 
+ const LogOut = () => {
+    sessionStorage.removeItem('data-jwt');
+    location
+
+    setTimeout(() => {
+      router.push('/login');
+      console.log('Logged out');
+    },500)
+
+};
 
   return (
-    <div className='p-5 shadow-sm flex justify-between'> 
+    <div className='p-1 shadow-sm flex justify-around'> 
         <div className='flex items-center gap-8'>
-      <Image
-        src="/grocery_stor.png"
-        alt="Grocery Store Logo"  
-        width={100}
-        height={100}
-      />
+
+      <Link href={'/'}>
+        <Image
+          src="/grocery_stor.png"
+          alt="Grocery Store Logo"
+          width={100}
+          height={100}
+        />
+      </Link>
+
+
       <div>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -113,7 +130,8 @@ function Header() {
                 <DropdownMenuSeparator />
                 {categoryList.map((category, index) => (
 
-                      <DropdownMenuItem key={index} className='flex gap-3 items-center justify-around cursor-pointer'> 
+                  <Link href={`/products-category/${category.name}`} key={index}> 
+                      <DropdownMenuItem  className='flex gap-3 items-center justify-around cursor-pointer'> 
                       <Image
                          src={"http://localhost:1337"+category.icon[0].url.toString()}
                          alt='url category'
@@ -125,7 +143,7 @@ function Header() {
                       <h2 className='text-lg'> {category?.name} </h2>
                   
                     </DropdownMenuItem>
-
+                    </Link>
                 ))}
                 
             </DropdownMenuContent>
@@ -139,7 +157,12 @@ function Header() {
         </div>
         <div className='flex gap-5 items-center'>
             <h2 className='flex gap-2 items-center text-lg'> <ShoppingBag/> 0  </h2>
-            <Button> Login </Button>
+            
+            {jwt && (
+              <Button onClick={() => LogOut()}> Sair </Button>
+            )
+           }
+
         </div>
     </div>
   );

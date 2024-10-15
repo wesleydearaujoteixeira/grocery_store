@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Ms_Madi } from "next/font/google";
+
 import Modal from "./Modal";
 
 
@@ -27,7 +27,6 @@ const Products = () => {
   const GetProducts = () => {
     
     getProducts().then(response => {
-        console.log(response.data.data);
         setProducts(response.data.data);
 
       }).catch(err => console.log(err));

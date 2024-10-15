@@ -82,7 +82,7 @@ const CategoryList = () => {
   return (
 
     <div className='mt-10 ml-5 mb-10'> 
-        <h2 className='text-green-600 text-2xl font-bold'> CategoryList </h2>
+        <h2 className='text-green-600 text-2xl font-bold'> Navegue por nossas categorias </h2>
         <section className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 mt-5 gap-5'>
             {categoryList.length > 0 && categoryList.map((category, index) => {
                 
