@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 
 import Modal from "./Modal";
+import { toast } from "sonner";
 
 
 
@@ -23,6 +24,8 @@ import Modal from "./Modal";
 const Products = () => {
 
   const [products, setProducts] = useState <Product[]> ([]);
+
+  const jwt = localStorage.getItem('jwt');
 
   const GetProducts = () => {
     
@@ -35,8 +38,11 @@ const Products = () => {
 
   useEffect(() => {
     GetProducts();
+
   }, []);
 
+
+ 
 
   return (
     <div className="mt-10">
@@ -71,7 +77,6 @@ const Products = () => {
                 <Button variant="outline"
                          className="text-primary hover:text-white hover:bg-primary "
                          > Add to cart 
-                         
                 </Button>
 
                 </DialogTrigger>
@@ -84,6 +89,7 @@ const Products = () => {
                           description={prodt.description}
                           name={prodt.name}
                           price={prodt.sellingPrice}
+                          id={prodt.id}
                         />
 
                         

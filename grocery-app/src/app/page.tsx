@@ -4,6 +4,7 @@ import Image from "next/image";
 import CategoryList from "./_components/CategoryList";
 import Products from "./_components/Products";
 import Sliders from "./_components/Sliders";
+import Footer from "./_components/Footer";
 
 
 export default function Home() {
@@ -25,7 +26,7 @@ export default function Home() {
 
       />
      
-
+    <Footer/>
     </div>
   );
 }

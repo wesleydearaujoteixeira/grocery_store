@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import { LoaderIcon } from 'lucide-react';
 
 const  CreateAccount = () => {
   
@@ -15,6 +16,9 @@ const  CreateAccount = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
 
   
   const RegisterAnUser = () => {    
@@ -29,9 +33,13 @@ const  CreateAccount = () => {
       console.log(res.data.user);
       console.log(res.data.jwt);
 
-      sessionStorage.setItem('data-user', JSON.stringify(res.data.user));
-      sessionStorage.setItem('data-jwt', JSON.stringify(res.data.jwt));
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      localStorage.setItem('jwt', res.data.jwt);
       router.push('/');
+
+      setTimeout(() => {
+        location.reload();
+      }, 500)
 
     }).catch((err) => {
       console.log('Error:', err);
@@ -70,7 +78,15 @@ const  CreateAccount = () => {
           <Input type="email" placeholder='youremail@example.com' onChange={e => setEmail(e.target.value)}/>
           <Input  placeholder='password' onChange={e => setPassword(e.target.value)}/>
           
-          <Button onClick={() => RegisterAnUser()}> Create an Account </Button>
+         
+         
+          <Button 
+            onClick={RegisterAnUser} 
+            disabled={loading}
+          >
+            {loading ? <LoaderIcon className='animate-spin'/> : 'Login'}
+
+          </Button>
           <p>Already have an account
             <Link className='text-blue-500' href={'/login'}> Click to here to Sing-in an account </Link>
           </p>

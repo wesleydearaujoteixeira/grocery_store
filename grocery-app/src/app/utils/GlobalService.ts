@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const globalApi = axios.create({
-    baseURL: "http://localhost:1337/api/"  
+    baseURL: "http://localhost:1337/api"  
 })
 
 
@@ -24,3 +24,20 @@ export const login = (email: string, pass: string) => globalApi.post('/auth/loca
     identifier: email,
     password: pass
 });
+
+export const addToCartServices = (data: any, jwt: string) => globalApi.post('/user-carts', data, {
+    headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
+    }
+
+});
+
+export const getCartItems = (userId: string, jwt: string) => {
+    return globalApi.get(`/user-carts?filters[userId][$eq]=${userId}&populate=*`,{
+        headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    })
+}
