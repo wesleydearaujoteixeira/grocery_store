@@ -41,3 +41,13 @@ export const getCartItems = (userId: string, jwt: string) => {
         }
     })
 }
+
+
+export const deleteCartItem = (id: any, jwt: string) => globalApi.delete(`/user-carts/${id}`, {
+    headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
+    }
+
+})
+

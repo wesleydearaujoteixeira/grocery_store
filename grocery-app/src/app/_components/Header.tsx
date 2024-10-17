@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { CircleUserRound, LayoutGrid, Search, ShoppingBasket } from 'lucide-react';
+import { CircleUserRound, LayoutGrid, Search, ShoppingBasket, Trash2Icon, TrashIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,10 +12,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getCartItems, getCategory } from '../utils/GlobalService';
+import { deleteCartItem, getCartItems, getCategory } from '../utils/GlobalService';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { useUpdateCart } from '../context/UpdateContext';
+
 
 function Header() {
   
@@ -27,7 +38,16 @@ function Header() {
   const token = localStorage.getItem('jwt') || '';
 
 
-  const [basket, setBasket] = useState <number> (0);
+  const [basket, setBasket] = useState (0);
+  const { cart, setCart } = useUpdateCart();
+
+
+  let somaTotal = 0;
+
+  for(let i = 0; i < cart.length; i++) {
+      somaTotal += cart[i].amount;
+  }
+
 
   const router = useRouter();
 
@@ -58,6 +78,8 @@ function Header() {
     getCartItems(user.id, token).then((response) => {
         console.log(response.data.data.length);
         setBasket(response.data.data.length);
+        setCart(response.data.data);
+        console.log(response.data.data);
   })
   }
 
@@ -77,6 +99,24 @@ function Header() {
     }, 1000);
 
   };
+
+
+  const deleteItem = (id: any) => {
+
+
+    deleteCartItem(id, token).then((response) => {
+      console.log(response);
+      console.log('Item deletado com sucesso!');
+      getBasket();
+
+    }).catch((error) => {
+      console.log('Error:', error);
+      alert('Ocorreu um erro ao deletar o item');
+    })
+    
+    ;
+  
+  }
 
   return (
     <div className="p-1 shadow-sm flex justify-around">
@@ -129,9 +169,60 @@ function Header() {
       </div>
 
       <div className="flex gap-5 items-center">
-        <h2 className="flex gap-2 items-center text-lg">
-          <ShoppingBasket/> <span className='bg-primary text-white font-bold rounded-full px-3'> {basket} </span>
-        </h2>
+       
+
+
+      <Sheet>
+        <SheetTrigger>
+            {jwt && (
+              <h2 className="flex gap-2 items-center text-lg cursor-pointer">
+              <ShoppingBasket/> <span className='bg-primary text-white font-bold rounded-full px-3'> {basket} </span>
+            </h2>
+            )}
+        </SheetTrigger>
+        <SheetContent>
+  <SheetHeader>
+    <SheetTitle className="bg-primary p-3 font-bold text-2xl rounded-md text-center text-white">
+      My Cart
+    </SheetTitle>
+
+    {/* Limitar altura e ativar rolagem */}
+    <SheetDescription className="overflow-y-auto max-h-[600px] p-4">
+      {cart && cart.map((cartItem) => (
+        <aside key={cartItem.id} className="flex justify-between items-center p-2 mb-5">
+          <div className="flex flex-col justify-between gap-2">
+            <Image
+              src={`${cartItem.images}`}
+              alt="product image"
+              width={90}
+              height={90}
+              unoptimized={true}
+            />
+            <div className="flex flex-col">
+              <h2 className="font-bold">{cartItem.title}</h2>
+              <h3 className="text-sm font-bold">Quantity: {cartItem.quantity}</h3>
+              <h2 className="text-lg font-bold">R$ {cartItem.amount}</h2>
+            </div>
+            <hr />
+          </div>
+          <Trash2Icon className='cursor-pointer' onClick={() => deleteItem(cartItem.id)} />
+        </aside>
+      ))}
+
+      {/* Subtotal e botão na parte inferior */}
+      <div className="absolute w-[90%] bottom-6 flex flex-col">
+        <h1 className="text-lg font-bold flex justify-between mr-4">
+          Subtotal R$ <span>{somaTotal.toFixed(2)}</span>
+        </h1>
+        <Button className='mr-10'>View Cart</Button>
+      </div>
+    </SheetDescription>
+  </SheetHeader>
+</SheetContent>
+
+      </Sheet>
+
+
 
         {jwt ? (
 

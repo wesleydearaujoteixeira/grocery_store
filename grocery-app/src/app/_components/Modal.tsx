@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { addToCartServices } from "../utils/GlobalService";
-import { toast } from "sonner";
 
 type PropsTypes = {
     id: number;
@@ -66,9 +65,11 @@ const Modal = ({images, name, description, price, id}: PropsTypes) => {
             data: {
               quantity: quantity, 
               amount: result.toFixed(2), 
-              products: {id}, 
               users_permissions_users: user?.id,
-              userId: user?.id
+              userId: user?.id,
+              title: name,
+              images: images,
+              description: description
             },
           };
 
